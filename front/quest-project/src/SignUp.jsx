@@ -4,7 +4,11 @@ class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: ""
+      email: "",
+      password: "",
+      passwordconf: "",
+      name: "",
+      lastname: ""
     };
     this.updateEmailField = this.updateEmailField.bind(this);
   }
@@ -13,17 +17,71 @@ class SignUp extends React.Component {
     this.setState({ email: event.target.value });
   }
 
+  updatePasswordField = event => {
+    this.setState({ password: event.target.value });
+  };
+
+  updatePasswordconfField = event => {
+    this.setState({ passwordconf: event.target.value });
+  };
+
+  updateNameField = event => {
+    this.setState({ name: event.target.value });
+  };
+
+  updateLastnameField = event => {
+    this.setState({ lastname: event.target.value });
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    console.log("Your form has been submitted: ", this.state);
+  };
+
   render() {
     return (
       <div>
-        {" "}
-        <h1>{this.state.email}</h1>
-        <input
-          onChange={this.updateEmailField}
-          value={this.state.email}
-          type="email"
-          name="email"
-        />{" "}
+        <h1>{JSON.stringify(this.state)}</h1>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            onChange={this.updateEmailField}
+            value={this.state.email}
+            type="email"
+            name="email"
+          />
+          <br />
+          <input
+            onChange={this.updatePasswordField}
+            value={this.state.password}
+            type="password"
+            name="password"
+          />
+          <br />
+          <input
+            onChange={this.updatePasswordconfField}
+            value={this.state.passwordconf}
+            type="password"
+            name="password"
+          />
+          <br />
+          <input
+            onChange={this.updateNameField}
+            value={this.state.name}
+            type="text"
+            name="text"
+          />
+          <br />
+          <input
+            onChange={this.updateLastnameField}
+            value={this.state.lastname}
+            type="text"
+            name="text"
+          />
+          <br />
+          <button>
+            <input type="submit" value="Submit" />
+          </button>
+        </form>
       </div>
     );
   }
