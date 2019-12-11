@@ -8,7 +8,8 @@ class SignUp extends React.Component {
       password: "",
       passwordconf: "",
       name: "",
-      lastname: ""
+      lastname: "",
+      flash: ""
     };
     this.updateEmailField = this.updateEmailField.bind(this);
   }
@@ -33,9 +34,25 @@ class SignUp extends React.Component {
     this.setState({ lastname: event.target.value });
   };
 
+  // componentDidUpdate() {
+  //   console.log(this.state.flash);
+  // }
+
   handleSubmit = event => {
     event.preventDefault();
-    console.log("Your form has been submitted: ", this.state);
+    //console.log("Your form has been submitted: ", this.state);
+    fetch("/auth/signup", {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      body: JSON.stringify(this.state)
+    })
+      .then(res => res.json())
+      .then(
+        res => this.setState({ flash: res.flash }),
+        err => this.setState({ flash: err.flash })
+      );
   };
 
   render() {
