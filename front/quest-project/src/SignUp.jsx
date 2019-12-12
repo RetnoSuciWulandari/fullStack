@@ -1,4 +1,7 @@
 import React from "react";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Snackbar from "@material-ui/core/Snackbar";
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -6,10 +9,11 @@ class SignUp extends React.Component {
     this.state = {
       email: "",
       password: "",
-      passwordconf: "",
+      passwordVerification: "",
       name: "",
       lastname: "",
-      flash: ""
+      flash: "",
+      open: false
     };
     this.updateEmailField = this.updateEmailField.bind(this);
   }
@@ -22,8 +26,8 @@ class SignUp extends React.Component {
     this.setState({ password: event.target.value });
   };
 
-  updatePasswordconfField = event => {
-    this.setState({ passwordconf: event.target.value });
+  updatepasswordVerificationField = event => {
+    this.setState({ passwordVerification: event.target.value });
   };
 
   updateNameField = event => {
@@ -34,9 +38,13 @@ class SignUp extends React.Component {
     this.setState({ lastname: event.target.value });
   };
 
-  // componentDidUpdate() {
-  //   console.log(this.state.flash);
-  // }
+  handleClick = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   handleSubmit = event => {
     event.preventDefault();
@@ -52,52 +60,130 @@ class SignUp extends React.Component {
       .then(
         res => this.setState({ flash: res.flash }),
         err => this.setState({ flash: err.flash })
-      );
+      )
+      .then(this.handleClick);
   };
 
   render() {
     return (
       <div>
-        <h1>{JSON.stringify(this.state)}</h1>
-        <form onSubmit={this.handleSubmit}>
-          <input
+        {/* <h1>{JSON.stringify(this.state)}</h1> */}
+        {/* <form onSubmit={this.handleSubmit}> */}
+
+        <form onSubmit={this.handleSubmit} noValidate autoComplete="off">
+          <h2>Sign Up!</h2>
+          {/* <input
             onChange={this.updateEmailField}
             value={this.state.email}
             type="email"
             name="email"
+          /> */}
+          <TextField
+            onChange={this.updateEmailField}
+            value={this.state.email}
+            type="email"
+            name="email"
+            id="outlined-basic"
+            label="Email"
+            variant="outlined"
           />
-          <br />
-          <input
+
+          {/* <input
             onChange={this.updatePasswordField}
             value={this.state.password}
             type="password"
             name="password"
-          />
-          <br />
-          <input
-            onChange={this.updatePasswordconfField}
-            value={this.state.passwordconf}
+          /> */}
+
+          <TextField
+            onChange={this.updatePasswordField}
+            value={this.state.password}
             type="password"
             name="password"
+            id="outlined-password-input"
+            label="Password"
+            variant="outlined"
+            autoComplete="current-password"
+            style={{ marginTop: "1rem" }}
           />
-          <br />
-          <input
+
+          {/* <input
+            onChange={this.updatepasswordVerificationField}
+            value={this.state.passwordVerification}
+            type="password"
+            name="password"
+          /> */}
+
+          <TextField
+            onChange={this.updatepasswordVerificationField}
+            value={this.state.passwordVerification}
+            type="password"
+            name="password"
+            id="outlined-password-input"
+            label="Password Verification"
+            variant="outlined"
+            style={{ marginTop: "1rem" }}
+          />
+
+          {/* <input
             onChange={this.updateNameField}
             value={this.state.name}
             type="text"
             name="text"
+          /> */}
+
+          <TextField
+            onChange={this.updateNameField}
+            value={this.state.name}
+            type="text"
+            name="text"
+            id="outlined-basic"
+            label="First Name"
+            variant="outlined"
+            style={{ marginTop: "1rem" }}
           />
-          <br />
-          <input
+
+          {/* <input
             onChange={this.updateLastnameField}
             value={this.state.lastname}
             type="text"
             name="text"
+          /> */}
+
+          <TextField
+            onChange={this.updateLastnameField}
+            value={this.state.lastname}
+            type="text"
+            name="text"
+            id="outlined-basic"
+            label="Last Name"
+            variant="outlined"
+            style={{ marginTop: "1rem" }}
           />
-          <br />
-          <button>
+
+          {/* <button>
             <input type="submit" value="Submit" />
-          </button>
+          </button> */}
+
+          <Button
+            variant="contained"
+            color="primary"
+            style={{
+              marginTop: "1rem"
+            }}
+            type="submit"
+          >
+            SUBMIT
+          </Button>
+          <Snackbar
+            open={this.state.open}
+            autoHideDuration={6000}
+            onClose={this.handleClose}
+            ContentProps={{
+              "aria-describedby": "message-id"
+            }}
+            message={<span id="message-id">{this.state.flash}</span>}
+          />
         </form>
       </div>
     );
