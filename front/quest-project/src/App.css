@@ -29,5 +29,20 @@ form {
 }
 
 h2 {
+  text-align: center;
   color: #141eaa;
+}
+
+.style {
+  font-size: 10rem;
+}
+
+.profile {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 1rem;
+}
+
+h3 {
+  color: #fcb571;
 }

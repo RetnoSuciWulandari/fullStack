@@ -1,7 +1,8 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Snackbar from "@material-ui/core/Snackbar";
+import { Link } from "react-router-dom";
+import { withRouter } from "react-router";
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -11,9 +12,7 @@ class SignUp extends React.Component {
       password: "",
       passwordVerification: "",
       name: "",
-      lastname: "",
-      flash: "",
-      open: false
+      lastname: ""
     };
     this.updateEmailField = this.updateEmailField.bind(this);
   }
@@ -38,14 +37,6 @@ class SignUp extends React.Component {
     this.setState({ lastname: event.target.value });
   };
 
-  handleClick = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
   handleSubmit = event => {
     event.preventDefault();
     //console.log("Your form has been submitted: ", this.state);
@@ -58,10 +49,11 @@ class SignUp extends React.Component {
     })
       .then(res => res.json())
       .then(
-        res => this.setState({ flash: res.flash }),
-        err => this.setState({ flash: err.flash })
+        res => this.props.setFlashMessage(res.flash),
+        err => this.props.setFlashMessage(err.flash)
       )
-      .then(this.handleClick);
+      .then(this.props.handleOpen)
+      .then(this.props.history.push("/"));
   };
 
   render() {
@@ -71,7 +63,7 @@ class SignUp extends React.Component {
         {/* <form onSubmit={this.handleSubmit}> */}
 
         <form onSubmit={this.handleSubmit} noValidate autoComplete="off">
-          <h2>Sign Up!</h2>
+          <h2>Hello!</h2>
           {/* <input
             onChange={this.updateEmailField}
             value={this.state.email}
@@ -83,79 +75,46 @@ class SignUp extends React.Component {
             value={this.state.email}
             type="email"
             name="email"
-            id="outlined-basic"
             label="Email"
             variant="outlined"
           />
 
-          {/* <input
-            onChange={this.updatePasswordField}
-            value={this.state.password}
-            type="password"
-            name="password"
-          /> */}
-
           <TextField
             onChange={this.updatePasswordField}
             value={this.state.password}
             type="password"
             name="password"
-            id="outlined-password-input"
             label="Password"
             variant="outlined"
             autoComplete="current-password"
             style={{ marginTop: "1rem" }}
           />
 
-          {/* <input
-            onChange={this.updatepasswordVerificationField}
-            value={this.state.passwordVerification}
-            type="password"
-            name="password"
-          /> */}
-
           <TextField
             onChange={this.updatepasswordVerificationField}
             value={this.state.passwordVerification}
             type="password"
             name="password"
-            id="outlined-password-input"
             label="Password Verification"
             variant="outlined"
             style={{ marginTop: "1rem" }}
           />
 
-          {/* <input
-            onChange={this.updateNameField}
-            value={this.state.name}
-            type="text"
-            name="text"
-          /> */}
-
           <TextField
             onChange={this.updateNameField}
             value={this.state.name}
             type="text"
             name="text"
-            id="outlined-basic"
             label="First Name"
             variant="outlined"
             style={{ marginTop: "1rem" }}
           />
 
-          {/* <input
-            onChange={this.updateLastnameField}
-            value={this.state.lastname}
-            type="text"
-            name="text"
-          /> */}
-
           <TextField
             onChange={this.updateLastnameField}
             value={this.state.lastname}
             type="text"
             name="text"
-            id="outlined-basic"
             label="Last Name"
             variant="outlined"
             style={{ marginTop: "1rem" }}
@@ -173,21 +132,29 @@ class SignUp extends React.Component {
             }}
             type="submit"
           >
-            SUBMIT
+            SIGN UP
           </Button>
-          <Snackbar
-            open={this.state.open}
-            autoHideDuration={6000}
-            onClose={this.handleClose}
-            ContentProps={{
-              "aria-describedby": "message-id"
-            }}
-            message={<span id="message-id">{this.state.flash}</span>}
-          />
         </form>
+        <Link
+          to="/signin"
+          style={{
+            textDecoration: "none"
+          }}
+        >
+          <Button
+            variant="outlined"
+            color="primary"
+            style={{
+              marginLeft: "1rem",
+              marginBottom: "1rem"
+            }}
+          >
+            SIGN IN
+          </Button>
+        </Link>
       </div>
     );
   }
 }
 
-export default SignUp;
+export default withRouter(SignUp);
